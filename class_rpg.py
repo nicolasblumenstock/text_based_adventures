@@ -1,39 +1,51 @@
 # import hero and goblin classes from their respective files
+from Event_Engine import Event_Engine
 from hero import Hero
 from goblin import Goblin
+from vampire import Vampire
+from Royksopp import Royksopp
+from West import West
+from Blahblahblah import Blahblahblah
+from Region import Region
 
-the_hero = Hero("Aragon")
-the_goblin = Goblin()
+# **-------- Variables --------**
+monsters = []
+the_hero = Hero()
+events = Event_Engine()
+game_on = True
+region = []
 
-
-while the_goblin.health > 0 and the_hero.is_alive():
-	print "You have %d health and %d power." % (the_hero.health, the_hero.power)
-	print "The goblin has %d health and %d power." % (the_goblin.health, the_goblin.power)
-	print "What do you want to do?"
-	print "1. fight goblin"
-	print "2. do nothing"
-	print "3. flee"
-	print "> ",
+# ** ---- GAME START ---- **
+while game_on:
 	
-	user_input = raw_input()
+	events.salutations(the_hero)
 
-	if (user_input == "1"):
-		the_goblin.health -= the_hero.power
-		print "You have done %d damage to the goblin." % the_hero.power
-		if the_goblin.health <= 0:
-			print "You have defeated the goblin! ggez"		
-	elif (user_input == "2"):
-		pass
-	elif (user_input == "3"):
-		print "Goodbye, coward"
-		break
+	if (the_hero.greeted == True):
+		events.crossroads(the_hero,region)
+		print region[0].name
+
+	if (region[0].name != 'home'):
+		events.battle(the_hero,monsters,region)
+
+	keep_playing = raw_input("Would you like to keep going? ")
+
+	if (keep_playing.upper() == "YES" and keep_playing.upper == "Y"):
+		game_on = False
 	else:
-		print "Invalid input %s" % user_input
-	if the_goblin.health > 0:
-		the_hero.health -= the_goblin.power
-		print "Ho noes! You've taken %d from the goblin!" % the_goblin.power
-		if the_hero.health <= 0:
-			print "You've been killed by the goblin. gitgud"
-	if the_hero.health > 0  and the_hero.health < 5:
-		print "You have gone into a rage. Your power has increased!"
-		the_hero.power += 5
+		game_on = False
+
+
+
+# while the_hero.is_alive():
+# 	if the_hero.greeted == False:		
+# 		events.salutations(the_hero)
+# 	else:
+# 		random_battles.fight(the_hero,monsters)
+
+
+
+
+
+
+
+
